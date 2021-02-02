@@ -16,6 +16,7 @@ const LessonPreview = () => {
   const [content, setContent] = useState('');
   const [convertedContent, setConvertedContent] = useState('');
   const [copied, setCopied] = useState(false);
+  const [githubURL, setGithubURL] = useState('');
 
   const fetchLessonPreview = async () => {
     const response = await axios.post('/lessons/preview', { content });
@@ -23,6 +24,11 @@ const LessonPreview = () => {
     if (response.status === 200) {
       setConvertedContent(response.data.content);
     }
+  };
+
+  const fetchGithub = async () => {
+    const response = await axios.get(`https://api.github.com/repos/TheOdinProject/${repo}/contents/${filename}?ref=${branch}`);
+    console.log(response);
   };
 
   const handleClick = () => {
@@ -62,6 +68,19 @@ const LessonPreview = () => {
       <TabPanel>
         <LessonContentPreview content={convertedContent} />
       </TabPanel>
+      <div className="form__section">
+        <span className="form__icon fab fa-github" />
+        <input
+          autoFocus
+          className="form__element form__element--with-icon"
+          type="url"
+          name="repo_url"
+          placeholder="Github File URL"
+          value={githubURL}
+          onChange={setGithubURL}
+        />
+      </div>
+
       <button
         type="button"
         className={`button ${copied ? 'button--secondary' : 'button--primary'} float-right mb-1`}
