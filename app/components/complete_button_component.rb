@@ -15,4 +15,8 @@ class CompleteButtonComponent < ViewComponent::Base
   def lesson_completed?
     @lesson_completed ||= current_user.completed?(lesson)
   end
+
+  def test
+    p test
+  end
 end
